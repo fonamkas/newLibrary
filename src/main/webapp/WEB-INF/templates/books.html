@@ -1,0 +1,47 @@
+<!-- Screen 110: Book Search -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>[110] Book Search</title>
+</head>
+<body>
+<h1>[110] 蔵書検索</h1>
+
+<form th:action="@{/books/search}" method="get">
+  <label>書名: <input type="text" name="bookName" th:value="${vm.form.bookName}"/></label><br/>
+  <label>著者: <input type="text" name="authorName" th:value="${vm.form.authorName}"/></label><br/>
+  <label>図書館: <input type="text" name="libraryName" th:value="${vm.form.libraryName}"/></label><br/>
+  <input type="hidden" name="page" th:value="${vm.page}"/>
+  <input type="hidden" name="size" th:value="${vm.size}"/>
+  <button type="submit">検索</button>
+</form>
+
+<div th:if="${vm.list != null}">
+  <p th:text="|検索結果: ${vm.total}件|"></p>
+  <table>
+    <tr>
+      <th>ID</th><th>書名</th><th>著者</th><th>空き冊数</th>
+    </tr>
+    <tr th:each="b : ${vm.list}">
+      <td th:text="${b.bookId}"></td>
+      <td th:text="${b.bookName}"></td>
+      <td th:text="${b.authorNames}"></td>
+      <td th:text="${b.availableCopies}"></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(vm.list)}">
+      <td colspan="4">該当なし</td>
+    </tr>
+  </table>
+
+  <div th:if="${vm.totalPages > 1}">
+    <span th:each="p : ${#numbers.sequence(1, vm.totalPages)}">
+      <span th:if="${p == vm.page}" th:text="${p}"></span>
+      <a th:if="${p != vm.page}"
+         th:href="@{/books/search(bookName=${vm.form.bookName},authorName=${vm.form.authorName},libraryName=${vm.form.libraryName},page=${p},size=${vm.size})}"
+         th:text="${p}"></a>
+    </span>
+  </div>
+</div>
+</body>
+</html>

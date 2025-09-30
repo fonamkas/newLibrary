@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'eclipse'
+    id 'eclipse-wtp'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_17 // JDKに合わせて
+
+repositories { mavenCentral() }
+
+ext {
+    springVersion    = '6.1.12'
+    thymeleafVersion = '3.1.2.RELEASE'
+    mybatisSpringVersion = '3.0.3'
+}
+
+dependencies {
+    implementation "org.springframework:spring-webmvc:${springVersion}"
+    implementation "org.springframework:spring-jdbc:${springVersion}"   // ← これ
+    implementation "org.springframework:spring-tx:${springVersion}"     // ← これも（宣言推奨）
+    // Thymeleaf
+    implementation "org.thymeleaf:thymeleaf:${thymeleafVersion}"
+    implementation "org.thymeleaf:thymeleaf-spring6:${thymeleafVersion}"
+
+    // DB: PostgreSQL + HikariCP
+    implementation 'org.postgresql:postgresql:42.7.3'
+    implementation 'com.zaxxer:HikariCP:5.1.0'
+
+    // MyBatis + Spring連携
+    implementation "org.mybatis:mybatis:3.5.15"
+    implementation "org.mybatis:mybatis-spring:${mybatisSpringVersion}"
+    
+    //lombok
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    providedCompile 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+}
+
+tasks.test { useJUnitPlatform() }

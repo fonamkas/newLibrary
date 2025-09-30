@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.library.repository.BookSearchMapper">
+	<select id="countByCriteria" parameterType="map" resultType="int">
+		SELECT COUNT(DISTINCT B.BOOK_ID)
+		FROM BOOKS B
+		LEFT JOIN BOOK_AUTHORS BA ON BA.BOOK_ID=B.BOOK_ID
+		LEFT JOIN AUTHORS A ON A.AUTHOR_ID = BA.AUTHOR_ID
+		LEFT JOIN STOCKS S ON S.BOOK_ID=B.BOOK_ID
+		LEFT JOIN LIBRARIES L ON L.LIBRARY_ID = S.LIBRARY_ID
+		
+		<where>
+			<if test="f.bookName!=null and f.bookName!='' ">
+				AND b.book_name ILIKE CONCAT('%',#{f.bookName},'%')
+			</if>
+					<if test="f.authorName!=null and f.authorName!='' ">
+				AND a.author_name ILIKE CONCAT('%',#{f.authorName},'%')
+			</if>
+					<if test="f.libraryName!=null and f.libraryName!='' ">
+				AND l.name ILIKE CONCAT('%',#{f.libraryName},'%')
+			</if>
+		</where>
+	
+	</select>
+
+	<select id="searchByCriteria" parameterType="map" resultType="com.example.library.dto.book.BookSearchRow">
+	
+		SELECT 
+		b.book_id AS bookId,
+		b.book_name AS bookName,
+		STRING_AGG(DISTINCT a.author_name , ',') AS authorName,
+		COALESCE(SUM(s.available_copies), 0) AS availableCopies
+		
+		FROM books b
+		
+		LEFT JOIN book_authors ba ON ba.book_id = b.book_id
+		LEFT JOIN authors a ON a.author_id =ba.author_id
+		LEFT JOIN stocks s ON s.book_id=b.book_id
+		LEFT JOIN libraries l ON l.library_id=s.library_id
+		<where>
+			<if test="f.bookName!=null and f.bookName!='' ">
+				AND b.book_name ILIKE CONCAT('%',#{f.bookName},'%')
+			</if>
+					<if test="f.authorName!=null and f.authorName!='' ">
+				AND a.author_name ILIKE CONCAT('%',#{f.authorName},'%')
+			</if>
+					<if test="f.libraryName!=null and f.libraryName!='' ">
+				AND l.name ILIKE CONCAT('%',#{f.libraryName},'%')
+			</if>
+		</where>
+			GROUP BY b.book_id , b.book_name
+			ORDER BY b.book_id
+			LIMIT #{limit} OFFSET #{offset}
+	</select>
+</mapper>
