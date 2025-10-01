@@ -2,8 +2,8 @@ package com.example.library.viewmodel.books;
 
 import java.util.List;
 
-import com.example.library.dto.book.BookSearchForm;
-import com.example.library.dto.book.BookSearchRow;
+import com.example.library.dto.BookSearchForm;
+import com.example.library.dto.BookSearchRow;
 
 import lombok.Builder;
 import lombok.Value;

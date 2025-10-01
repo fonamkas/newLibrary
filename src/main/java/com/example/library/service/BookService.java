@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.library.dto.book.BookSearchForm;
-import com.example.library.dto.book.BookSearchRow;
+import com.example.library.dto.BookSearchForm;
+import com.example.library.dto.BookSearchRow;
 import com.example.library.entity.Book;
 import com.example.library.repository.BookMapper;
 import com.example.library.repository.BookSearchMapper;

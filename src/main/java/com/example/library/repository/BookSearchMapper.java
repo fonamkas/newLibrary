@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.example.library.dto.book.BookSearchForm;
-import com.example.library.dto.book.BookSearchRow;
+import com.example.library.dto.BookSearchForm;
+import com.example.library.dto.BookSearchRow;
 
 public interface BookSearchMapper {
 	int countByCriteria(@Param("f") BookSearchForm form);

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.library.dto.book.BookSearchForm;
-import com.example.library.dto.book.BookSearchRow;
+import com.example.library.dto.BookSearchForm;
+import com.example.library.dto.BookSearchRow;
 import com.example.library.service.BookService;
 import com.example.library.viewmodel.books.Screen110BookSearchVm;
 
