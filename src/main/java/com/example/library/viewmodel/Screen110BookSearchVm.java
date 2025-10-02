@@ -19,3 +19,5 @@ public class Screen110BookSearchVm {
     int size;                  // ページサイズ
     int totalPages;            // 総ページ数
 }
+
+
