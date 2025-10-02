@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.example.library.dto.BookSearchForm;
 import com.example.library.dto.BookSearchRow;
 import com.example.library.service.BookService;
-import com.example.library.viewmodel.books.Screen110BookSearchVm;
+import com.example.library.viewmodel.Screen110BookSearchVm;
 
 @Controller
 public class BookController {

@@ -1,4 +1,4 @@
-package com.example.library.viewmodel.books;
+package com.example.library.viewmodel;
 
 import java.util.List;
 
