@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>蔵書詳細</title>
+</head>
+<body>
+  <h1>蔵書詳細</h1>
+  
+  <div th:if="${vm}" th:object="${vm}">
+    <h2 th:text="*{bookName}"></h2>
+    <ul>
+      <li><strong>著者:</strong> <span th:text="*{authorName}"></span></li>
+      <li><strong>出版社:</strong> <span th:text="*{publishCompany}"></span></li>
+      <li><strong>出版日:</strong> <span th:text="*{#dates.format(publishDate, 'yyyy-MM-dd')}"></span></li>
+    </ul>
+    <p th:text="*{bookDescription}"></p>
+    
+    <h3>所蔵図書館</h3>
+    <table border="1">
+      <tbody>
+        <tr th:each="collection : *{collections}">
+          <td th:text="${collection.libraryName}"></td>
+          <td th:text="${collection.status}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div th:if="${vm == null}">
+    <p>指定された書籍は見つかりませんでした。</p>
+  </div>
+  
+  <br>
+  <a th:href="@{/books}">検索画面に戻る</a>
+</body>
+</html>

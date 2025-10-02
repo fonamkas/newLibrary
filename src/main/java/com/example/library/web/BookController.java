@@ -5,11 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.library.dto.BookDetailDto;
 import com.example.library.dto.BookSearchForm;
 import com.example.library.dto.BookSearchRow;
+import com.example.library.dto.CollectionDto;
 import com.example.library.service.BookService;
 import com.example.library.viewmodel.Screen110BookSearchVm;
+import com.example.library.viewmodel.Screen111BookDetailVm;
 
 @Controller
 public class BookController {
@@ -44,7 +48,7 @@ public class BookController {
 //		model.addAttribute(list)
 //	}
 	
-	@GetMapping("/search")
+	@GetMapping("/books")
 	public String search(BookSearchForm form ,Model model) {
 		int page=form.getPage();
 		int size=form.getSize();
@@ -68,6 +72,38 @@ public class BookController {
 		System.out.println(vm);
 		
 		model.addAttribute("vm",vm);
-		return "books";
+		return "110BookSearch";
 	}
+	
+	@GetMapping("/books/{bookId}")
+    public String showBookDetail(@PathVariable("bookId") Long bookId, Model model) {
+        
+        // 1. Serviceから、画面に必要なデータをDTOの形でそれぞれ取得する
+        BookDetailDto bookDto = bookService.findBookDetailData(bookId);
+        
+        // 本が見つからない場合は、vmをセットせずに画面遷移
+        if (bookDto == null) {
+            model.addAttribute("vm", null);
+            return "111BookDetail";
+        }
+        
+        List<CollectionDto> collections = bookService.findCollectionsForBook(bookId);
+        BookDetailDto bookDetail=bookService.findBookDetailData(bookId);
+        // 2. ControllerでViewModelを生成し、DTOからデータを詰め替える
+        Screen111BookDetailVm vm = Screen111BookDetailVm.builder()
+        		.screenNo("111")
+        		.bookId(bookId)
+        		.bookName(bookDetail.getBookName())
+        		.authorName(bookDetail.getAuthorName())
+        		.publishCompany(bookDetail.getPublishCompany())
+        		.publishDate(bookDetail.getPublishDate())
+        		.imageUrl(bookDetail.getImageUrl())
+        		.bookDescription(bookDetail.getBookDescription())
+        		.collections(collections)
+        		.build();
+
+        // 3. 完成したViewModelをViewに渡す
+        model.addAttribute("vm", vm);
+        return "111BookDetail";
+    }
 }

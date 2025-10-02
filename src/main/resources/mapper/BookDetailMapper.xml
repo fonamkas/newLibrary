@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.library.repository.BookDetailMapper">
+
+  <select id="selectBookById" resultType="com.example.library.dto.BookDetailDto">
+    SELECT
+      b.book_id,
+      b.book_name,
+      b.publish_company,
+      b.publish_date,
+      b.image_url,
+      b.book_description,
+      (SELECT a.author_name FROM authors a
+       INNER JOIN book_authors ba ON a.author_id = ba.author_id
+       WHERE ba.book_id = b.book_id LIMIT 1) AS author_name
+    FROM
+      books b
+    WHERE
+      b.book_id = #{bookId}
+  </select>
+
+  <select id="selectCollectionsByBookId" resultType="com.example.library.dto.CollectionDto">
+    SELECT
+      l.library_id,
+      l.name AS library_name,
+      '在庫あり' AS status
+    FROM
+      collections c
+    INNER JOIN
+      libraries l ON c.library_id = l.library_id
+    WHERE
+      c.book_id = #{bookId}
+  </select>
+</mapper>

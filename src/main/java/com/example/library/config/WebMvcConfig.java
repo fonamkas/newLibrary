@@ -12,7 +12,7 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.example.library.web")
+@ComponentScan(basePackages = {"com.example.library.web"})
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
