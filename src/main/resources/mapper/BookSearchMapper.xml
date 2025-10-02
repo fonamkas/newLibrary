@@ -26,7 +26,7 @@
 	
 	</select>
 
-	<select id="searchByCriteria" parameterType="map" resultType="com.example.library.dto.book.BookSearchRow">
+	<select id="searchByCriteria" parameterType="map" resultType="com.example.library.dto.BookSearchRow">
 	
 		SELECT 
 		b.book_id AS bookId,
